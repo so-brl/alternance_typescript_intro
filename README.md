@@ -37,7 +37,7 @@ Effectuez une première compilation de votre code via :
 
 `npx tsc`
  
-Que signifie cette commande ?
+Que signifie cette commande ? -> Run le compiler
 Ouvrez le fichier `build/index.js` généré, assurez-vous qu'il est bien conforme à votre code initial.
 
 
@@ -60,6 +60,10 @@ Créez ensuite un fichier de configuration `nodemon.json` avec le contenu suivan
  
 N'hésitez pas à consulter la documentation de l'outil pour en savoir plus sur sa configuration.
 
+````
+Automatic re-running
+nodemon was originally written to restart hanging processes such as web servers, but now supports apps that cleanly exit. If your script exits cleanly, nodemon will continue to monitor the directory (or directories) and restart the script if there are any changes.
+````
 Le rechargement automatique est ensuite lancé via la commande `nodemon -I`. Créez une tâche dans le fichier `package.json` afin de lancer cette commande depuis NPM. 
 
 
