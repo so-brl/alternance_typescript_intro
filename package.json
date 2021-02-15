@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/so-brl/alternance_typescript_intro/issues"
   },
-  "homepage": "https://github.com/so-brl/alternance_typescript_intro#readme"
+  "homepage": "https://github.com/so-brl/alternance_typescript_intro#readme",
+  "devDependencies": {
+    "typescript": "^4.1.5"
+  }
 }
