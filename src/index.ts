@@ -1,7 +1,6 @@
 import prompts from "prompts";
 import {Character} from "./class/Character";
 
-
 (async () => {
    const newCharacter = await prompts( [
         {
@@ -10,9 +9,14 @@ import {Character} from "./class/Character";
             message: `Choisissez  le pseudo de votre personnage :`,
         },
         {
-            type: 'text',
+            type: 'select',
             name: 'sexe',
             message: `Choisissez  le sexe de votre personnage :`,
+            choices: [
+                { title: 'Femme', value: 'Femme' },
+                { title: 'Homme', value: 'Homme' },
+                { title: 'Limace', value: 'Limace' },
+            ],
         },
         {
             type: 'number',
@@ -25,6 +29,22 @@ import {Character} from "./class/Character";
     let myCharacter:Character = new Character(newCharacter.pseudo,newCharacter.sexe,newCharacter.life);
     myCharacter.summary();
     console.log('Ennemi en approche !');
+
+    const makeChoice = await prompts( [
+        {
+            type: 'select',
+            name: 'action',
+            message: 'Vous voulez ?',
+            choices: [
+                { title: 'combattre', value: 'En avaaaaaant !!!!' },
+                { title: 'battre en retraite (fin de la partie)', value: 'Bon ba on va se boire une bière :)' },
+            ],
+        }
+    ]);
+
+    console.log(makeChoice.action);
+
+
 
 })();
 
