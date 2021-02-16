@@ -1,5 +1,6 @@
 import prompts from "prompts";
 import {Character} from "./class/Character";
+import {Ennemy} from "./class/Enemy";
 
 (async () => {
    const newCharacter = await prompts( [
@@ -36,14 +37,19 @@ import {Character} from "./class/Character";
             name: 'action',
             message: 'Vous voulez ?',
             choices: [
-                { title: 'combattre', value: 'En avaaaaaant !!!!' },
-                { title: 'battre en retraite (fin de la partie)', value: 'Bon ba on va se boire une bière :)' },
+                { title: 'combattre', value: true },
+                { title: 'battre en retraite (fin de la partie)', value: false },
             ],
         }
     ]);
 
     console.log(makeChoice.action);
-
+if (makeChoice.action){
+    let ennemy: Ennemy = new Ennemy('Jason');
+    ennemy.summary();
+    myCharacter.attack(ennemy);
+    console.log(ennemy);
+}
 
 
 })();
