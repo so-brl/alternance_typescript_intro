@@ -22,9 +22,10 @@ export class Character implements Fighter {
 
     public attack(fighter: Fighter) {
         let levelAttack = Math.floor(Math.random() * 1000);
-            let levelWeapon = this.weapon.damage;
-        console.log(`La puissance de votre attaque est de  ${levelAttack+levelWeapon} points. (Puissance du coup : ${levelAttack}: + Puissance de votre arme : ${levelWeapon} )`);
-        fighter.takeDamage(levelAttack);
+        let levelWeapon = this.weapon.damage;
+        let globalLevel = levelAttack+levelWeapon;
+        console.log(`La puissance de votre attaque est de  ${globalLevel} points. (Puissance du coup : ${levelAttack} + Puissance de votre arme : ${levelWeapon})`);
+        fighter.takeDamage(globalLevel);
     }
 
     takeDamage(attack: number): number {

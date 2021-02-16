@@ -4,6 +4,7 @@ import {Ennemy} from "./class/Enemy";
 import {Wizzard} from "./class/Wizzard";
 import {Warrior} from "./class/Warrior";
 import {Weapon} from "./class/Weapon";
+import {Provocation} from "./class/Provocation";
 
 
 (async () => {
@@ -49,25 +50,26 @@ import {Weapon} from "./class/Weapon";
     let ennemy: Ennemy = new Ennemy('Jason');
     ennemy.summary();
 
-    let weapon : Weapon = new Weapon(newCharacter.weapon);
+    let weapon: Weapon = new Weapon(newCharacter.weapon);
 
-    let  myCharacter = factoring(newCharacter.type,newCharacter.pseudo,newCharacter.sexe,weapon)
+    let myCharacter = factoring(newCharacter.type, newCharacter.pseudo, newCharacter.sexe, weapon)
     myCharacter.summary();
 
     await playing(myCharacter, ennemy);
 
-    function factoring(type: string, pseudo: string, sexe: string, weapon: Weapon):Character {
-        let myCharacter :Character;
+    function factoring(type: string, pseudo: string, sexe: string, weapon: Weapon): Character {
+        let myCharacter: Character;
         if (type == 'Wizzard') {
-            myCharacter = new Wizzard(pseudo, sexe,weapon);
+            myCharacter = new Wizzard(pseudo, sexe, weapon);
 
         } else if (type == 'Warrior') {
-            myCharacter= new Warrior(pseudo, sexe,weapon);
+            myCharacter = new Warrior(pseudo, sexe, weapon);
 
         }
         // @ts-ignore
         return myCharacter;
     }
+
     async function fnMakeChoice() {
         const choice = await prompts([
             {
@@ -83,6 +85,7 @@ import {Weapon} from "./class/Weapon";
         return choice;
 
     }
+
     async function playing(myCharacter: Character, ennemy: Ennemy) {
         const makeChoice = await fnMakeChoice();
         if (makeChoice.action) {
@@ -101,11 +104,10 @@ import {Weapon} from "./class/Weapon";
                 console.log('THE END !!! You Win !!! Votre attaque à pulvérisé les point de vie de ' + ennemy.name);
             }
         } else {
-            console.log('THE END !!! Vous avez abandonné');
+            const provocation: Provocation = new Provocation;
+            console.log('THE END !!! Vous avez abandonné')
         }
     }
-
-
 })();
 
 

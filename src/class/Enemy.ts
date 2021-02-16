@@ -41,8 +41,8 @@ export class Ennemy implements Fighter {
 
     takeDamage(attack: number): number {
         let fighterLife = this.life;
-        this.life = fighterLife-attack * 0.5;
-        return attack * 0.5;
+        this.life = fighterLife-attack ;
+        return attack;
     }
 
 }
