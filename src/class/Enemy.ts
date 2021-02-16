@@ -1,6 +1,7 @@
 import {Fighter} from "../interface/Fighter";
+import {Provocation} from "./Provocation";
 
-export class Ennemy implements Fighter {
+export class Ennemy implements Fighter, Provocation{
     private _name: string;
     private _life: number
 
@@ -43,6 +44,15 @@ export class Ennemy implements Fighter {
         let fighterLife = this.life;
         this.life = fighterLife-attack ;
         return attack;
+    }
+
+    public getProvocation() {
+        const fetch = require("node-fetch");
+
+        return fetch('https://kaamelott.hotentic.com/api/random/personnage/Le%20Ma%C3%AEtre%20d\'Armes')
+
+            .then((reponse: { json: () => any; }) => reponse.json())
+            .then((data:any) => console.log(data.citation.citation));
     }
 
 }

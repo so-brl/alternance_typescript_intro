@@ -104,8 +104,12 @@ import {Provocation} from "./class/Provocation";
                 console.log('THE END !!! You Win !!! Votre attaque à pulvérisé les point de vie de ' + ennemy.name);
             }
         } else {
-            const provocation: Provocation = new Provocation;
+
+
             console.log('THE END !!! Vous avez abandonné')
+          await ennemy.getProvocation()
+            playing(myCharacter, ennemy);
+
         }
     }
 })();
