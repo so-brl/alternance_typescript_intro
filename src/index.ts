@@ -1,10 +1,13 @@
-import prompts from "prompts";
+import prompts, {Answers} from "prompts";
 import {Character} from "./class/Character";
 import {Ennemy} from "./class/Enemy";
-import {callbackify} from "util";
+import {Wizzard} from "./class/Wizzard";
+import {Warrior} from "./class/Warrior";
+
 
 (async () => {
     const newCharacter = await prompts([
+
         {
             type: 'text',
             name: 'pseudo',
@@ -17,69 +20,80 @@ import {callbackify} from "util";
             choices: [
                 {title: 'Femme', value: 'Femme'},
                 {title: 'Homme', value: 'Homme'},
-                {title: 'Limace', value: 'Limace'},
             ],
-        },
-        {
-            type: 'number',
-            name: 'life',
-            message: 'Choisissez  le nombre de point de vie de votre personnage :',
-
+        },        {
+            type: 'select',
+            name: 'type',
+            message: `Choisissez  le type de votre personnage :`,
+            choices: [
+                {title: 'Wizzard', value: 'Wizzard'},
+                {title: 'Warrior', value: 'Warrior'},
+            ],
         },
     ]);
 
-    let myCharacter: Character = new Character(newCharacter.pseudo, newCharacter.sexe, newCharacter.life);
-    myCharacter.summary();
     console.log('Ennemi en approche !');
 
-    const makeChoice = await prompts([
-        {
-            type: 'select',
-            name: 'action',
-            message: 'Vous voulez ?',
-            choices: [
-                {title: 'combattre', value: true},
-                {title: 'battre en retraite (fin de la partie)', value: false},
-            ],
-        }
-    ]);
-    console.log(makeChoice.action);
+    let ennemy: Ennemy = new Ennemy('Jason');
+    ennemy.summary();
 
-    if (makeChoice.action) {
-        let ennemy: Ennemy = new Ennemy('Jason');
-        ennemy.summary();
-        myCharacter.attack(ennemy);
-        if (ennemy.life > 0) {
-            console.log('Il reste ' + ennemy.life + ' point de vie à ' + ennemy.name);
-            console.log("---------------------------------");
-            console.log("L'ennemi riposte !");
-            console.log("---------------------------------");
-            ennemy.attack(myCharacter);
-            if (myCharacter.life > 0) {
-                console.log('Il vous reste' + myCharacter.life + ' point de vie.');
-                const makeChoice = await prompts([
-                    {
-                        type: 'select',
-                        name: 'action',
-                        message: 'Vous voulez ?',
-                        choices: [
-                            {title: 'combattre', value: true},
-                            {title: 'battre en retraite (fin de la partie)', value: false},
-                        ],
-                    }
-                ]);
-                console.log(makeChoice.action);
-                myCharacter.attack(ennemy);
-            }else{
-                console.log('THE END !!! You LOOOOSE !!! L\'attaque de '+ennemy.name+' a pulvérisé vos point de vie .' );
+    let  myCharacter = factoring(newCharacter.type,newCharacter.pseudo,newCharacter.sexe)
+    myCharacter.summary();
+
+    await playing(myCharacter, ennemy);
+
+
+
+    function factoring(type: string, pseudo: string, sexe: string):Character {
+        let myCharacter :Character;
+        if (type == 'Wizzard') {
+            myCharacter = new Wizzard(pseudo, sexe);
+
+        } else if (type == 'Warrior') {
+            myCharacter= new Warrior(pseudo, sexe);
+
+        }
+        // @ts-ignore
+        return myCharacter;
+    }
+    async function fnMakeChoice() {
+        const choice = await prompts([
+            {
+                type: 'select',
+                name: 'action',
+                message: 'Vous voulez ?',
+                choices: [
+                    {title: 'combattre', value: true},
+                    {title: 'battre en retraite (fin de la partie)', value: false},
+                ],
+            }
+        ]);
+        return choice;
+
+    }
+    async function playing(myCharacter: Character, ennemy: Ennemy) {
+        const makeChoice = await fnMakeChoice();
+        if (makeChoice.action) {
+            myCharacter.attack(ennemy)
+            if (ennemy.life > 0) {
+                console.log('Il reste ' + ennemy.life + ' point de vie à ' + ennemy.name);
+                console.log("---------------------------------\nL'ennemi riposte !\n---------------------------------");
+                ennemy.attack(myCharacter);
+                if (myCharacter.life > 0) {
+                    console.log('Il vous reste ' + myCharacter.life + ' point de vie .');
+                    playing(myCharacter, ennemy);
+                } else {
+                    console.log('THE END !!! You LOOOOSE !!! L\'attaque de ' + ennemy.name + ' a pulvérisé vos point de vie .');
+                }
+            } else {
+                console.log('THE END !!! You Win !!! Votre attaque à pulvérisé les point de vie de ' + ennemy.name);
             }
         } else {
-            console.log('THE END !!! You Win !!! Votre attaque à pulvérisé les point de vie de ' + ennemy.name);
+            console.log('THE END !!! Vous avez abandonné');
         }
     }
 
 
 })();
-
 
 
