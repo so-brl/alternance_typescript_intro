@@ -3,6 +3,7 @@ import {Character} from "./class/Character";
 import {Ennemy} from "./class/Enemy";
 import {Wizzard} from "./class/Wizzard";
 import {Warrior} from "./class/Warrior";
+import {Weapon} from "./class/Weapon";
 
 
 (async () => {
@@ -21,7 +22,8 @@ import {Warrior} from "./class/Warrior";
                 {title: 'Femme', value: 'Femme'},
                 {title: 'Homme', value: 'Homme'},
             ],
-        },        {
+        },
+        {
             type: 'select',
             name: 'type',
             message: `Choisissez  le type de votre personnage :`,
@@ -30,6 +32,16 @@ import {Warrior} from "./class/Warrior";
                 {title: 'Warrior', value: 'Warrior'},
             ],
         },
+        {
+            type: 'select',
+            name: 'weapon',
+            message: `Choisissez  votre arme :`,
+            choices: [
+                {title: 'Légère', value: 10},
+                {title: 'Moyenne', value: 100},
+                {title: 'Lourde', value: 1000}
+            ],
+        }
     ]);
 
     console.log('Ennemi en approche !');
@@ -37,20 +49,20 @@ import {Warrior} from "./class/Warrior";
     let ennemy: Ennemy = new Ennemy('Jason');
     ennemy.summary();
 
-    let  myCharacter = factoring(newCharacter.type,newCharacter.pseudo,newCharacter.sexe)
+    let weapon : Weapon = new Weapon(newCharacter.weapon);
+
+    let  myCharacter = factoring(newCharacter.type,newCharacter.pseudo,newCharacter.sexe,weapon)
     myCharacter.summary();
 
     await playing(myCharacter, ennemy);
 
-
-
-    function factoring(type: string, pseudo: string, sexe: string):Character {
+    function factoring(type: string, pseudo: string, sexe: string, weapon: Weapon):Character {
         let myCharacter :Character;
         if (type == 'Wizzard') {
-            myCharacter = new Wizzard(pseudo, sexe);
+            myCharacter = new Wizzard(pseudo, sexe,weapon);
 
         } else if (type == 'Warrior') {
-            myCharacter= new Warrior(pseudo, sexe);
+            myCharacter= new Warrior(pseudo, sexe,weapon);
 
         }
         // @ts-ignore
